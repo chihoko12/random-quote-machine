@@ -26,8 +26,10 @@ const QuoteBox = () => {
 
   const fetchQuote = async () => {
     try {
-      const response = await axios.get('https://gist.githubusercontent.com/camperbot/5a022b72e96c4c9585c32bf6a75f62d9/raw/e3c6895ce42069f0ee7e991229064f167fe8ccdc/quotes.json')
-      const quotes = response.data.quotes();
+      const response = await axios.get(
+        'https://gist.githubusercontent.com/camperbot/5a022b72e96c4c9585c32bf6a75f62d9/raw/e3c6895ce42069f0ee7e991229064f167fe8ccdc/quotes.json'
+      );
+      const quotes = response.data.quotes;
       const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
       setQuote(randomQuote.quote);
       setAuthor(randomQuote.author);
@@ -41,6 +43,10 @@ const QuoteBox = () => {
     fetchQuote();
   },[]);
 
+  useEffect(() => {
+    document.body.style.backgroundColor = color;
+  },[color]);
+
   return (
     <div id="quote-box" style={{ color: color }}>
       <div className="quote-text">
@@ -53,7 +59,7 @@ const QuoteBox = () => {
         <a
           className="button"
           id="tweet-quote"
-          href={``}
+          href={`https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=${encodeURIComponent(`"${quote}" - ${author}`)}`}
           target="_top"
           style={{ backgroundColor: color }}
         >
@@ -62,7 +68,7 @@ const QuoteBox = () => {
         <a
           className="button"
           id="tumblr-quote"
-          href={``}
+          href={`https://www.tumblr.com/widgets/share/tool?posttype=quote&tags=quotes,freecodecamp&caption=${encodeURIComponent(author)}&content=${encodeURIComponent(quote)}&canonicalUrl=https%3A%2F%2Fwww.tumblr.com%2Fbuttons&shareSource=tumblr_share_button`}
           target="_blank"
           style={{ backgroundColor: color }}
         >
